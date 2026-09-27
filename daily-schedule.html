@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Daily Schedule</title>
+<meta name="description" content="Michelle's daily school schedule, assignments, and book club tracker.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f7f4ef">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f4ef; --surface:#fffdf9; --text:#241c1c; --muted:#665d5a;
+  --line:#d9cfc3; --accent:#a73b47; --accent-ink:#fff;
+  --sage:#627862; --sage-soft:#e2e9df; --over:#f6e3e5;
+  color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55;font-size:16px}
+.wrap{max-width:none;margin:0;padding:0 16px 56px}
+.hero{padding:30px 4px 6px}
+.kicker{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+h1{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:2.15rem;letter-spacing:-.02em;line-height:1.1}
+.todayline{color:var(--muted);margin-top:6px;font-size:.95rem}
+.days{display:flex;gap:6px;margin:18px 0 2px}
+.day{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;
+  padding:10px 0;font:600 .78rem "DM Sans",sans-serif;color:var(--muted);cursor:pointer;text-align:center}
+.day.on{background:var(--accent);border-color:var(--accent);color:#fff}
+section{margin-top:28px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 10px}
+h2{font-family:"Newsreader",Georgia,serif;font-size:1.4rem;font-weight:600;letter-spacing:-.01em}
+.count{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px;margin-bottom:10px}
+.row{display:flex;gap:12px;align-items:flex-start;cursor:pointer;min-height:44px}
+.row input{position:absolute;opacity:0;width:1px;height:1px}
+.box{flex:0 0 26px;width:26px;height:26px;border:1.5px solid var(--line);border-radius:8px;margin-top:2px;
+  display:grid;place-items:center;background:#fff;transition:background .15s,border-color .15s}
+.box svg{width:15px;height:15px;opacity:0;transition:opacity .15s}
+.row.done .box{background:var(--accent);border-color:var(--accent)}
+.row.done .box svg{opacity:1}
+.row .body{flex:1;min-width:0}
+.time{font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.ttl{font-size:1.02rem;font-weight:600;margin:1px 0 2px}
+.row.done .ttl{color:var(--muted);text-decoration:line-through}
+.note{font-size:.88rem;color:var(--muted)}
+.meta{display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:700;color:var(--muted);letter-spacing:.03em;margin-bottom:2px;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.kind{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:999px;background:var(--sage-soft);color:var(--sage)}
+.kind.course{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.kind.review{background:#efe7d8;color:#8a6d3b}
+.links{margin-top:8px}
+.links a{color:var(--accent);font-weight:600;font-size:.86rem;margin-right:14px;text-decoration:none}
+.links a:active{text-decoration:underline}
+.ghead{display:flex;align-items:center;gap:10px;margin:20px 4px 8px}
+.gdate{font-family:"Newsreader",Georgia,serif;font-size:1.12rem;font-weight:600}
+.pill{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 11px;border-radius:999px}
+.pill.today{background:var(--sage-soft);color:var(--sage)}
+.pill.tomorrow{background:#efe7d8;color:#8a6d3b}
+.pill.over{background:var(--over);color:var(--accent)}
+.details{font-size:.86rem;color:var(--muted);margin-top:3px}
+.bookmeta{font-size:.9rem;color:var(--muted);margin:0 4px 12px}
+.meetup{font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.02em;margin-bottom:2px}
+.chips{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:10px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;width:1px;height:1px}
+.chip span{display:block;text-align:center;padding:9px 0;border:1px solid var(--line);border-radius:8px;
+  font-size:.82rem;font-weight:600;background:#fff;cursor:pointer;min-height:44px;display:flex;align-items:center;justify-content:center}
+.chip input:checked+span{background:var(--accent);border-color:var(--accent);color:#fff}
+.coursename{font-size:1.02rem;font-weight:700}
+.coursetitle{font-size:.88rem;color:var(--muted);margin:2px 0 8px}
+.courselinks a{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:9px 16px;margin:0 8px 8px 0;
+  color:var(--accent);font-weight:600;font-size:.86rem;text-decoration:none;background:#fff}
+footer{margin:34px 4px 0;font-size:.78rem;color:var(--muted);text-align:center;line-height:1.7}
+footer .rule{display:block;width:44px;height:2px;background:var(--line);margin:0 auto 14px}
+/* views + my events */
+.vtabs{display:flex;gap:6px;margin:14px 0 4px;position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0}
+.vtab{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 0;font:600 .8rem "DM Sans",sans-serif;color:var(--muted);cursor:pointer}
+.vtab.on{background:var(--text);border-color:var(--text);color:#fff}
+.view{display:none}
+.view.on{display:block}
+.addbtn{display:block;width:100%;margin:4px 0 12px;border:1.5px dashed var(--line);background:transparent;border-radius:14px;padding:13px;font:600 .92rem "DM Sans",sans-serif;color:var(--accent);cursor:pointer}
+.evform{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.evform input[type=text]{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:500 .95rem "DM Sans",sans-serif;margin-bottom:10px;background:#fff;color:var(--text)}
+.evrow{display:flex;gap:8px;margin-bottom:10px}
+.evrow:last-child{margin-bottom:0}
+.evrow select,.evrow input[type=time]{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px 8px;font:500 .88rem "DM Sans",sans-serif;background:#fff;color:var(--text)}
+.btn{flex:1;border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px;font:600 .88rem "DM Sans",sans-serif;color:var(--text);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card{position:relative}
+.evdel{position:absolute;top:6px;right:8px;border:0;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:8px;cursor:pointer;z-index:2}
+.kind.mine{background:#e7edf9;color:#3c5a9c}
+.wday{display:flex;align-items:baseline;gap:10px;margin:20px 4px 8px}
+.wday h3{font-family:"Newsreader",Georgia,serif;font-size:1.1rem;font-weight:600}
+.wblock{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px}
+.wblock .wt{flex:0 0 auto;min-width:112px;font-size:.74rem;font-weight:700;color:var(--muted)}
+.wblock .wn{flex:1;min-width:0;font-weight:600;font-size:.92rem}
+.wblock .wk{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <p class="kicker">Fall 2026 · Subterm C · Sep 21 – Nov 13</p>
+    <h1>Daily Schedule</h1>
+    <p class="todayline" id="todayLine"></p>
+  </header>
+  <nav class="vtabs" id="viewTabs" aria-label="Views"></nav>
+  <main>
+   <div class="view on" id="view-today">
+    <nav class="days" id="dayTabs" aria-label="Day of week"></nav>
+    <section>
+      <div class="sec-head"><h2 id="schedTitle">Today's flow</h2><p class="count" id="schedCount"></p></div>
+      <button class="addbtn" id="addEvBtn" type="button">+ Add event</button>
+      <div class="evform" id="evForm" hidden>
+        <input id="evTitle" type="text" placeholder="Event name" maxlength="80" autocomplete="off">
+        <div class="evrow">
+          <select id="evDay" aria-label="Day"></select>
+          <input id="evStart" type="time" aria-label="Start time">
+          <input id="evEnd" type="time" aria-label="End time">
+        </div>
+        <div class="evrow">
+          <button class="btn primary" id="evSave" type="button">Add to schedule</button>
+          <button class="btn" id="evCancel" type="button">Cancel</button>
+        </div>
+      </div>
+      <div id="schedList"></div>
+    </section>
+    <section>
+      <div class="sec-head"><h2>EHS Book Club</h2><p class="count" id="bookCount"></p></div>
+      <p class="bookmeta"><em>Confessions of a Submissive Wife</em> · Mondays 7:30–8:30 PM Eastern</p>
+      <div id="bookBlocks"></div>
+    </section>
+    <section>
+      <div class="sec-head"><h2>Course links</h2></div>
+      <div id="courseCards"></div>
+    </section>
+   </div>
+   <div class="view" id="view-weekly">
+    <section>
+      <div class="sec-head"><h2>Weekly view</h2><p class="count">7 days</p></div>
+      <div id="weeklyList"></div>
+    </section>
+   </div>
+   <div class="view" id="view-announce">
+    <section>
+      <div class="sec-head"><h2>Announcements</h2></div>
+      <div class="card">
+        <p class="note">No announcements right now — new class announcements will appear here as they arrive.</p>
+      </div>
+    </section>
+   </div>
+   <div class="view" id="view-assign">
+    <section>
+      <div class="sec-head"><h2>Assignments</h2><p class="count" id="assignCount"></p></div>
+      <div id="assignGroups"></div>
+    </section>
+   </div>
+  </main>
+  <footer>
+    <span class="rule"></span>
+    Checkoffs and your added events save on this phone.<br>
+    Content updated Sep 26, 2026.
+  </footer>
+</div>
+<script>
+"use strict";
+/* ---------- data (mirrors the Daily Schedule tracker, Sep 26 2026) ---------- */
+var COURSES = {
+  PSYC101:{code:"PSYC101",title:"General Psychology",color:"#C8654E",
+    portal:{label:"Open myLU",url:"https://mylu.liberty.edu"},material:null,
+    chat:{label:"Open myLU for class chat",url:"https://mylu.liberty.edu"}},
+  UNIV104:{code:"UNIV104",title:"Instructional Technology for Successful Online Learning",color:"#5D7D6E",
+    portal:{label:"Open myLU",url:"https://mylu.liberty.edu"},
+    material:{label:"Open MindTap",url:"http://www.getenrolled.com/"},
+    chat:{label:"Open myLU for class chat",url:"https://mylu.liberty.edu"}}
+};
+function C(code){return COURSES[code];}
+var SCHEDULE = {
+ 1:[ /* Monday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
+  {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 2:[ /* Tuesday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed.",done:true},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
+  {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 3:[ /* Wednesday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
+  {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 4:[ /* Thursday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
+  {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 5:[ /* Friday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"PSYC101 catch-up",s:570,e:660,k:"course",c:"PSYC101",n:"Close any gaps before the weekend and review upcoming deadlines."},
+  {t:"UNIV104 finish line",s:675,e:750,k:"course",c:"UNIV104",n:"Submit finished work and set up the next module."},
+  {t:"Weekly school wrap",s:750,e:780,k:"review",n:"Confirm submissions, note what is still open, then close school for the day."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 6:[ /* Saturday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Saturday study session",s:600,e:720,k:"study",n:"Review the week, strengthen difficult material, and get ahead without stretching into the afternoon."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
+ 0:[ /* Sunday */
+  {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
+  {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
+  {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
+  {t:"Sunday weekly review",s:1110,e:1140,k:"review",n:"Preview deadlines and choose the first task for Monday morning."},
+  {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}]
+};
+var ASSIGNMENTS = [
+ {id:1,c:"PSYC101",t:"Course Requirements Checklist",d:"5 questions \u00b7 10 pts \u00b7 unlimited attempts \u00b7 no time limit. Due Wed 11:59pm. Verified live in Canvas 2026-09-21. Question texts weren't readable without starting an attempt \u2014 open the quiz in Canvas to read them, then send them to Brandy for review-ready draft answers.",due:"2026-09-23",time:"23:59",done:true},
+ {id:2,c:"UNIV104",t:"Course Requirements Checklist",d:"5 questions \u00b7 10 pts \u00b7 unlimited attempts \u00b7 no time limit. Due Wed 11:59pm. Verified live in Canvas 2026-09-21. Question texts weren't readable without starting an attempt \u2014 open the quiz in Canvas to read them, then send them to Brandy for review-ready draft answers.",due:"2026-09-23",time:"23:59",done:true},
+ {id:4,c:"UNIV104",t:"Discussion Thread: Training Champions for Christ",d:"70 pts. First graded discussion. Source: Canvas Assignments read 2026-09-19.",due:"2026-09-24",time:"23:59",done:false},
+ {id:3,c:"UNIV104",t:"MT Aplia Intro Chapter HW",d:"30 pts, MindTap. Source: Canvas Assignments read 2026-09-19.",due:"2026-09-28",time:"23:59",done:true},
+ {id:5,c:"PSYC101",t:"Research in Action Video Assignment",d:"90 pts. Source: Canvas Assignments read 2026-09-19.",due:"2026-09-28",time:"23:59",done:false},
+ {id:6,c:"PSYC101",t:"Quiz: Research Overview",d:"10 pts. Source: Canvas Assignments read 2026-09-19.",due:"2026-09-28",time:"23:59",done:false},
+ {id:7,c:"UNIV104",t:"Email Assignment",d:"50 pts. Source: Canvas Assignments read 2026-09-19.",due:"2026-09-28",time:"23:59",done:false},
+ {id:18,c:"UNIV104",t:"Discussion Replies: Training Champions for Christ",d:"Ungraded mark-done. Reply to at least two classmates. Verified in Canvas 2026-09-22.",due:"2026-09-28",time:null,done:false},
+ {id:8,c:"PSYC101",t:"Quiz: Exam 1",d:"150 pts. Verified in Canvas 2026-09-22.",due:"2026-10-05",time:null,done:false},
+ {id:17,c:"UNIV104",t:"Module 2 assignments",d:"Module 2 Acknowledgment, Taking Charge of Your Time and Money, Financial Literacy, Foundational Skills. Verified in Canvas 2026-09-22.",due:"2026-10-05",time:null,done:false},
+ {id:15,c:"PSYC101",t:"Stop, Observe, and Reflect: Developmental Psychology",d:"100 pts. Verified in Canvas 2026-09-22.",due:"2026-10-12",time:null,done:false},
+ {id:23,c:"UNIV104",t:"Module 3 assignments",d:"Campus Exploration PowerPoint, Participating in Class and Taking Notes, Module 3 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-10-12",time:null,done:false},
+ {id:10,c:"PSYC101",t:"Exam 2",d:"Verified in Canvas 2026-09-22.",due:"2026-10-19",time:null,done:false},
+ {id:21,c:"UNIV104",t:"Module 4 assignments + Midterm",d:"Maximizing Memory and Taking Tests, Midterm, Module 4 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-10-19",time:null,done:false},
+ {id:13,c:"UNIV104",t:"Module 5 assignments",d:"Developing Information Literacy, English/Math Assessments Confirmation, Module 5 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-10-26",time:null,done:false},
+ {id:19,c:"PSYC101",t:"Motivation and Emotion assignment",d:"Verified in Canvas 2026-09-22.",due:"2026-10-26",time:null,done:false},
+ {id:12,c:"PSYC101",t:"Exam 3",d:"Verified in Canvas 2026-09-22.",due:"2026-11-02",time:null,done:false},
+ {id:22,c:"UNIV104",t:"Module 6 assignments",d:"Civic and Global Engagement Reflection, Thinking Critically and Taking Tests, Module 6 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-11-02",time:null,done:false},
+ {id:14,c:"UNIV104",t:"Discussion Reflection on Course Goals",d:"Verified in Canvas 2026-09-22.",due:"2026-11-05",time:null,done:false},
+ {id:11,c:"PSYC101",t:"Course Reflection Video",d:"Verified in Canvas 2026-09-22.",due:"2026-11-09",time:null,done:false},
+ {id:16,c:"UNIV104",t:"Module 7 assignments",d:"Choosing Your Major, Module 7 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-11-09",time:null,done:false},
+ {id:9,c:"UNIV104",t:"Final Exam + Extra Credit GENED",d:"Final exam plus Extra Credit GENED Assessment opportunity (no set date in Canvas). Verified in Canvas 2026-09-22.",due:"2026-11-13",time:null,done:false},
+ {id:20,c:"PSYC101",t:"Exam 4",d:"Verified in Canvas 2026-09-22.",due:"2026-11-13",time:null,done:false}
+];
+var BOOK_BLOCKS = [
+ {n:1,a:1,b:8,meet:"2026-10-05"},
+ {n:2,a:9,b:16,meet:"2026-10-19"},
+ {n:3,a:17,b:24,meet:"2026-11-02"},
+ {n:4,a:25,b:32,meet:"2026-11-16"},
+ {n:5,a:33,b:40,meet:"2026-11-30"},
+ {n:6,a:41,b:44,meet:"2026-12-14"}
+];
+/* ---------- state (savable on this phone) ---------- */
+var KEY="michelle-daily-schedule-v1";
+var S={};try{S=JSON.parse(localStorage.getItem(KEY)||"{}");}catch(e){S={};}
+S.a=S.a||{};S.s=S.s||{};S.b=S.b||{};S.ev=S.ev||[];
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");}
+
+/* ---------- helpers ---------- */
+var DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var DOW=["Su","Mo","Tu","We","Th","Fr","Sa"];
+var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var CHECK='<svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function pad(n){return (n<10?"0":"")+n;}
+function dayISO(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+function parseISO(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmtDate(iso){var d=parseISO(iso);return DAYS[d.getDay()].slice(0,3)+", "+MON[d.getMonth()]+" "+d.getDate();}
+function fmtT(m){var h=Math.floor(m/60),mm=m%60,ap=h>=12?"PM":"AM";h=h%12;if(h===0)h=12;return h+":"+pad(mm)+" "+ap;}
+function fmtRange(s,e){var a=fmtT(s).split(" "),b=fmtT(e).split(" ");
+  if(a[1]===b[1])return a[0]+"\u2013"+b[0]+" "+b[1];return a[0]+" "+a[1]+"\u2013"+b[0]+" "+b[1];}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+var today=new Date(),todayISO=dayISO(today),viewDay=today.getDay();
+
+/* ---------- schedule ---------- */
+function schedKey(wd,t){return "s"+wd+":"+slug(t);}
+function isSchedDone(wd,it){var k=schedKey(wd,it.t);return (k in S.s)?!!S.s[k]:!!it.done;}
+function renderTabs(){
+  var nav=document.getElementById("dayTabs"),h="";
+  for(var i=0;i<7;i++)h+='<button class="day'+(i===viewDay?" on":"")+'" data-d="'+i+'">'+DOW[i]+"</button>";
+  nav.innerHTML=h;
+  for(var j=0;j<nav.children.length;j++)nav.children[j].onclick=function(){
+    viewDay=+this.getAttribute("data-d");renderTabs();renderSched();};
+}
+function courseLinksHTML(c){
+  var cc=C(c),h='<span class="links">';
+  h+='<a href="'+cc.portal.url+'" target="_blank" rel="noopener">'+esc(cc.portal.label)+"</a>";
+  if(cc.material)h+='<a href="'+cc.material.url+'" target="_blank" rel="noopener">'+esc(cc.material.label)+"</a>";
+  h+='<a href="'+cc.chat.url+'" target="_blank" rel="noopener">'+esc(cc.chat.label)+"</a>";
+  return h+"</span>";
+}
+/* ---------- my events ---------- */
+function evKey(id){return "e"+id;}
+function isEvDone(id){return !!S.s[evKey(id)];}
+function myEventsFor(wd){return S.ev.filter(function(e){return e.day===wd;}).sort(function(a,b){return a.s-b.s;});}
+function dayBlocks(wd){
+  var blocks=SCHEDULE[wd].slice(),evs=myEventsFor(wd),i;
+  for(i=0;i<evs.length;i++){var e=evs[i];
+    blocks.push({t:e.t,s:e.s,e:(e.e==null?e.s+30:e.e),k:"mine",n:"Added by you.",evId:e.id});}
+  blocks.sort(function(a,b){return a.s-b.s;});
+  return blocks;
+}
+function schedCountFor(wd){
+  var n=SCHEDULE[wd].length,sd=0,j;
+  for(j=0;j<SCHEDULE[wd].length;j++)if(isSchedDone(wd,SCHEDULE[wd][j]))sd++;
+  var evs=myEventsFor(wd);
+  for(j=0;j<evs.length;j++)if(isEvDone(evs[j].id))sd++;
+  return sd+" of "+(n+evs.length)+" done";
+}
+function renderSched(){
+  var list=dayBlocks(viewDay),html="",done=0;
+  for(var i=0;i<list.length;i++){var it=list[i],d,isMine=!!it.evId;
+    if(isMine){d=isEvDone(it.evId);}else{d=isSchedDone(viewDay,it);}
+    if(d)done++;
+    var key=isMine?evKey(it.evId):schedKey(viewDay,it.t);
+    html+='<div class="card">';
+    if(isMine)html+='<button type="button" class="evdel" data-evid="'+it.evId+'" aria-label="Delete event">&times;</button>';
+    html+='<label class="row'+(d?" done":"")+'">';
+    html+='<input type="checkbox" data-sk="'+key+'"'+(d?" checked":"")+">";
+    html+='<span class="box">'+CHECK+"</span>";
+    html+='<span class="body"><span class="meta"><span class="time">'+fmtRange(it.s,it.e)+"</span>";
+    if(it.c)html+='<span class="dot" style="background:'+C(it.c).color+'"></span><span>'+it.c+"</span>";
+    html+='<span class="kind'+(it.k==="course"?" course":it.k==="review"?" review":it.k==="mine"?" mine":"")+'">'+(it.k==="mine"?"my event":it.k)+"</span></span>";
+    html+='<span class="ttl">'+esc(it.t)+"</span>";
+    if(it.n)html+='<span class="note">'+esc(it.n)+"</span>";
+    if(it.c)html+=courseLinksHTML(it.c);
+    html+="</span></label></div>";
+  }
+  document.getElementById("schedList").innerHTML=html;
+  document.getElementById("schedCount").textContent=schedCountFor(viewDay);
+  document.getElementById("schedTitle").textContent=(viewDay===today.getDay()?"Today":DAYS[viewDay])+"\u2019s flow";
+  bindChecks();bindEvDel();
+}
+
+/* ---------- assignments ---------- */
+function isAssignDone(a){var k="a"+a.id;return (k in S.a)?!!S.a[k]:!!a.done;}
+function renderAssign(){
+  var groups={},i;
+  for(i=0;i<ASSIGNMENTS.length;i++){var a=ASSIGNMENTS[i];(groups[a.due]=groups[a.due]||[]).push(a);}
+  var dates=Object.keys(groups).sort(),html="",done=0,total=ASSIGNMENTS.length;
+  var tomorrowISO=dayISO(new Date(today.getTime()+864e5));
+  for(var g=0;g<dates.length;g++){var due=dates[g],items=groups[due],pill="",anyOpen=false;
+    for(var q=0;q<items.length;q++)if(!isAssignDone(items[q]))anyOpen=true;
+    if(due===todayISO)pill='<span class="pill today">Due today</span>';
+    else if(due===tomorrowISO)pill='<span class="pill tomorrow">Due tomorrow</span>';
+    else if(due<todayISO&&anyOpen)pill='<span class="pill over">Overdue</span>';
+    html+='<div class="ghead"><span class="gdate">'+fmtDate(due)+"</span>"+pill+"</div>";
+    for(var j=0;j<items.length;j++){var it=items[j],dd=isAssignDone(it);if(dd)done++;
+      var cc=C(it.c);
+      html+='<div class="card"><label class="row'+(dd?" done":"")+'">';
+      html+='<input type="checkbox" data-ak="a'+it.id+'"'+(dd?" checked":"")+">";
+      html+='<span class="box">'+CHECK+"</span>";
+      html+='<span class="body"><span class="meta"><span class="dot" style="background:'+cc.color+'"></span><span>'+it.c+"</span>";
+      if(it.time)html+="<span>Due "+fmtT(+it.time.slice(0,2)*60+ +it.time.slice(3))+"</span>";
+      html+="</span>";
+      html+='<span class="ttl">'+esc(it.t)+"</span>";
+      html+='<span class="details">'+esc(it.d)+"</span>";
+      html+="</span></label></div>";
+    }
+  }
+  document.getElementById("assignGroups").innerHTML=html;
+  document.getElementById("assignCount").textContent=done+" of "+total+" complete";
+  bindChecks();
+}
+
+/* ---------- book club ---------- */
+function isBookDone(n){var k="c"+n;return (k in S.b)?!!S.b[k]:false;}
+function renderBook(){
+  var html="",done=0;
+  for(var i=0;i<BOOK_BLOCKS.length;i++){var b=BOOK_BLOCKS[i];
+    html+='<div class="card"><p class="meetup">Chapters '+b.a+"\u2013"+b.b+" \u00b7 Meetup "+fmtDate(b.meet)+"</p>";
+    html+='<div class="chips">';
+    for(var n=b.a;n<=b.b;n++){var dd=isBookDone(n);if(dd)done++;
+      html+='<label class="chip"><input type="checkbox" data-bk="c'+n+'"'+(dd?" checked":"")+'><span>'+n+"</span></label>";}
+    html+="</div></div>";
+  }
+  document.getElementById("bookBlocks").innerHTML=html;
+  document.getElementById("bookCount").textContent=done+" of 44 chapters";
+  bindChecks();
+}
+
+/* ---------- courses ---------- */
+function renderCourses(){
+  var html="";
+  for(var code in COURSES){var c=COURSES[code];
+    html+='<div class="card"><p class="coursename"><span class="dot" style="background:'+c.color+';display:inline-block;margin-right:8px"></span>'+code+"</p>";
+    html+='<p class="coursetitle">'+esc(c.title)+"</p>";
+    html+='<div class="courselinks">';
+    html+='<a href="'+c.portal.url+'" target="_blank" rel="noopener">'+esc(c.portal.label)+"</a>";
+    if(c.material)html+='<a href="'+c.material.url+'" target="_blank" rel="noopener">'+esc(c.material.label)+"</a>";
+    html+='<a href="'+c.chat.url+'" target="_blank" rel="noopener">'+esc(c.chat.label)+"</a>";
+    html+="</div></div>";
+  }
+  document.getElementById("courseCards").innerHTML=html;
+}
+
+/* ---------- checkoff wiring ---------- */
+function bindChecks(){
+  var inputs=document.querySelectorAll("input[data-sk],input[data-ak],input[data-bk]");
+  for(var i=0;i<inputs.length;i++)inputs[i].onchange=function(){
+    var el=this,v=el.checked?1:0;
+    if(el.hasAttribute("data-sk"))S.s[el.getAttribute("data-sk")]=v;
+    else if(el.hasAttribute("data-ak"))S.a[el.getAttribute("data-ak")]=v;
+    else if(el.hasAttribute("data-bk"))S.b[el.getAttribute("data-bk")]=v;
+    save();
+    var row=el.closest(".row");if(row)row.classList.toggle("done",el.checked);
+    refreshCounts();
+  };
+}
+function refreshCounts(){
+  var done=0,i;for(i=0;i<ASSIGNMENTS.length;i++)if(isAssignDone(ASSIGNMENTS[i]))done++;
+  document.getElementById("assignCount").textContent=done+" of "+ASSIGNMENTS.length+" complete";
+  var bd=0;for(var n=1;n<=44;n++)if(isBookDone(n))bd++;
+  document.getElementById("bookCount").textContent=bd+" of 44 chapters";
+  document.getElementById("schedCount").textContent=schedCountFor(viewDay);
+}
+
+/* ---------- view tabs ---------- */
+var VIEWS=[["today","Today"],["weekly","Weekly"],["announce","Announcements"],["assign","Assignments"]];
+var view=S.tab||"today";
+(function(){var ok=false,i;for(i=0;i<VIEWS.length;i++)if(VIEWS[i][0]===view)ok=true;if(!ok)view="today";})();
+function renderViewTabs(){
+  var nav=document.getElementById("viewTabs"),h="",i;
+  for(i=0;i<VIEWS.length;i++)h+='<button type="button" class="vtab'+(VIEWS[i][0]===view?" on":"")+'" data-v="'+VIEWS[i][0]+'">'+VIEWS[i][1]+"</button>";
+  nav.innerHTML=h;
+  for(i=0;i<nav.children.length;i++)nav.children[i].onclick=function(){
+    view=this.getAttribute("data-v");S.tab=view;save();renderViewTabs();
+  };
+  for(i=0;i<VIEWS.length;i++)
+    document.getElementById("view-"+VIEWS[i][0]).classList.toggle("on",VIEWS[i][0]===view);
+}
+
+/* ---------- weekly view ---------- */
+function renderWeekly(){
+  var order=[1,2,3,4,5,6,0],html="",o,i;
+  for(o=0;o<order.length;o++){var wd=order[o],blocks=dayBlocks(wd);
+    html+='<div class="wday"><h3>'+DAYS[wd]+"</h3>";
+    if(wd===today.getDay())html+='<span class="pill today">Today</span>';
+    html+="</div>";
+    for(i=0;i<blocks.length;i++){var b=blocks[i];
+      html+='<div class="wblock"><span class="wt">'+fmtRange(b.s,b.e)+'</span><span class="wn">'+esc(b.t)+"</span>";
+      if(b.evId)html+='<span class="wk">My event</span>';
+      html+="</div>";
+    }
+  }
+  document.getElementById("weeklyList").innerHTML=html;
+}
+
+/* ---------- add / delete my events ---------- */
+function bindEvDel(){
+  var bs=document.querySelectorAll(".evdel"),i;
+  for(i=0;i<bs.length;i++)bs[i].onclick=function(ev){
+    ev.stopPropagation();
+    var id=+this.getAttribute("data-evid"),k=evKey(id);
+    S.ev=S.ev.filter(function(e){return e.id!==id;});
+    delete S.s[k];
+    save();renderSched();renderWeekly();
+  };
+}
+function renderEvDayOpts(){
+  var s=document.getElementById("evDay"),h="",i;
+  for(i=0;i<7;i++)h+='<option value="'+i+'"'+(i===viewDay?" selected":"")+'>'+DAYS[i]+"</option>";
+  s.innerHTML=h;
+}
+function toMin(v){var p=v.split(":");return (+p[0])*60+(+p[1]);}
+function bindEvForm(){
+  document.getElementById("addEvBtn").onclick=function(){
+    renderEvDayOpts();
+    var f=document.getElementById("evForm");
+    f.hidden=!f.hidden;
+    if(!f.hidden)document.getElementById("evTitle").focus();
+  };
+  document.getElementById("evCancel").onclick=function(){
+    document.getElementById("evForm").hidden=true;
+  };
+  document.getElementById("evSave").onclick=function(){
+    var t=document.getElementById("evTitle").value.trim(),
+        d=+document.getElementById("evDay").value,
+        st=document.getElementById("evStart").value,
+        en=document.getElementById("evEnd").value;
+    if(!t){document.getElementById("evTitle").focus();return;}
+    if(!st){document.getElementById("evStart").focus();return;}
+    var s=toMin(st),e=en?toMin(en):null;
+    if(e!=null&&e<s)e=null;
+    S.ev.push({id:Date.now(),day:d,t:t,s:s,e:e});
+    save();
+    document.getElementById("evTitle").value="";
+    document.getElementById("evStart").value="";
+    document.getElementById("evEnd").value="";
+    document.getElementById("evForm").hidden=true;
+    renderSched();renderWeekly();
+  };
+}
+
+/* ---------- init ---------- */
+document.getElementById("todayLine").textContent=DAYS[today.getDay()]+", "+MON[today.getMonth()]+" "+today.getDate();
+renderViewTabs();renderTabs();renderSched();renderWeekly();renderAssign();renderBook();renderCourses();bindEvForm();
+</script>
+</body>
+</html>
