@@ -4,9 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<title>Daily Schedule</title>
+<title>Daily Life</title>
 <meta name="description" content="Michelle's daily school schedule, assignments, and book club tracker.">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Daily Life">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#f7f4ef">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -508,6 +512,13 @@ function bindEvForm(){
 /* ---------- init ---------- */
 document.getElementById("todayLine").textContent=DAYS[today.getDay()]+", "+MON[today.getMonth()]+" "+today.getDate();
 renderViewTabs();renderTabs();renderSched();renderWeekly();renderAssign();renderBook();renderCourses();bindEvForm();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function () {});
+  });
+}
 </script>
 </body>
 </html>
