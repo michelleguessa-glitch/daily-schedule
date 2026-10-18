@@ -84,6 +84,7 @@ footer .rule{display:block;width:44px;height:2px;background:var(--line);margin:0
 /* views + my events */
 .vtabs{display:flex;gap:6px;margin:14px 0 4px;position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0}
 .vtab{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 2px;font:600 .68rem/1.25 "DM Sans",sans-serif;letter-spacing:-.01em;overflow-wrap:break-word;color:var(--muted);cursor:pointer}
+.vtab.wide{flex:1.35 1 0%}
 .vtab.on{background:var(--text);border-color:var(--text);color:#fff}
 .view{display:none}
 .view.on{display:block}
@@ -433,12 +434,12 @@ function refreshCounts(){
 }
 
 /* ---------- view tabs ---------- */
-var VIEWS=[["today","Today"],["weekly","Weekly"],["announce","Announcements"],["assign","Assignments"]];
+var VIEWS=[["today","Today"],["weekly","Weekly"],["assign","Assignments"],["announce","Announcements"]];
 var view=S.tab||"today";
 (function(){var ok=false,i;for(i=0;i<VIEWS.length;i++)if(VIEWS[i][0]===view)ok=true;if(!ok)view="today";})();
 function renderViewTabs(){
   var nav=document.getElementById("viewTabs"),h="",i;
-  for(i=0;i<VIEWS.length;i++)h+='<button type="button" class="vtab'+(VIEWS[i][0]===view?" on":"")+'" data-v="'+VIEWS[i][0]+'">'+VIEWS[i][1]+"</button>";
+  for(i=0;i<VIEWS.length;i++)h+='<button type="button" class="vtab'+(VIEWS[i][0]===view?" on":"")+(VIEWS[i][0]==="announce"?" wide":"")+'" data-v="'+VIEWS[i][0]+'">'+VIEWS[i][1]+"</button>";
   nav.innerHTML=h;
   for(i=0;i<nav.children.length;i++)nav.children[i].onclick=function(){
     view=this.getAttribute("data-v");S.tab=view;save();renderViewTabs();
