@@ -310,11 +310,11 @@ function courseLinksHTML(c){
 /* ---------- my events ---------- */
 function evKey(id){return "e"+id;}
 function isEvDone(id){return !!S.s[evKey(id)];}
-function myEventsFor(wd){return S.ev.filter(function(e){return e.day===wd;}).sort(function(a,b){return a.s-b.s;});}
+function myEventsFor(wd){return S.ev.filter(function(e){return e.date?(e.day===wd&&e.date>=todayISO):e.day===wd;}).sort(function(a,b){return a.s-b.s;});}
 function dayBlocks(wd){
   var blocks=SCHEDULE[wd].slice(),evs=myEventsFor(wd),i;
   for(i=0;i<evs.length;i++){var e=evs[i];
-    blocks.push({t:e.t,s:e.s,e:(e.e==null?e.s+30:e.e),k:"mine",n:"Added by you.",evId:e.id});}
+    blocks.push({t:e.t,s:e.s,e:(e.e==null?e.s+30:e.e),k:"mine",n:(e.n||"Added by you."),evId:e.id});}
   blocks.sort(function(a,b){return a.s-b.s;});
   return blocks;
 }
@@ -509,6 +509,29 @@ function bindEvForm(){
     renderSched();renderWeekly();
   };
 }
+
+/* ---------- one-time study blocks (seeded once, deletable in the app) ---------- */
+var SEED_EVENTS=[
+ {seed:"oct18-ack",day:0,date:"2026-10-18",t:"UNIV104: Module 4 Acknowledgment quiz",s:1140,e:1155,n:"Checklist quiz \u00b7 about 15 min \u00b7 quick win first"},
+ {seed:"oct18-midterm",day:0,date:"2026-10-18",t:"UNIV104 Midterm \u2014 Chapters 1\u20135",s:1155,e:1275,n:"Open book/notes \u00b7 untimed \u00b7 2 attempts, best counts \u00b7 30 questions"},
+ {seed:"oct18-break",day:0,date:"2026-10-18",t:"Break",s:1275,e:1290,n:"Stretch, water, rest your eyes."},
+ {seed:"oct18-personality",day:0,date:"2026-10-18",t:"PSYC101 Exam 2 prep: Personality",s:1290,e:1410,n:"Module 4, part 1 \u00b7 textbook read + notes"},
+ {seed:"oct19-socpsych",day:1,date:"2026-10-19",t:"Exam 2 prep: Social Psychology",s:480,e:540,n:"Module 4, part 2 \u00b7 read + notes \u00b7 before breakfast"},
+ {seed:"oct19-exam",day:1,date:"2026-10-19",t:"PSYC101 Exam 2 \u2014 TAKE THE EXAM",s:1140,e:1290,n:"75 questions \u00b7 2.5 hours \u00b7 ONE attempt \u00b7 due 11:59 PM"}
+];
+(function(){
+  var have={},i;
+  for(i=0;i<S.ev.length;i++)if(S.ev[i].seed)have[S.ev[i].seed]=1;
+  var added=false;
+  for(i=0;i<SEED_EVENTS.length;i++){
+    var sd=SEED_EVENTS[i];
+    if(!have[sd.seed]&&sd.date>=todayISO){
+      S.ev.push({id:Date.now()+i,seed:sd.seed,day:sd.day,date:sd.date,t:sd.t,s:sd.s,e:sd.e,n:sd.n});
+      added=true;
+    }
+  }
+  if(added)save();
+})();
 
 /* ---------- init ---------- */
 document.getElementById("todayLine").textContent=DAYS[today.getDay()]+", "+MON[today.getMonth()]+" "+today.getDate();
