@@ -110,7 +110,7 @@ footer .rule{display:block;width:44px;height:2px;background:var(--line);margin:0
 <body>
 <div class="wrap">
   <header class="hero">
-    <p class="kicker">Fall 2026 · Subterm C · Sep 21 – Nov 13</p>
+    <p class="kicker">Fall 2026 · Subterm C · Sep 21 – Nov 13 · Subterm D · Oct 26 – Dec 18</p>
     <h1>Daily Schedule</h1>
     <p class="todayline" id="todayLine"></p>
   </header>
@@ -155,8 +155,19 @@ footer .rule{display:block;width:44px;height:2px;background:var(--line);margin:0
     <section>
       <div class="sec-head"><h2>Announcements</h2></div>
       <div class="card">
-        <p class="note">No announcements right now — new class announcements will appear here as they arrive.</p>
+        <p class="coursename">APOL220 · Introduction to Apologetics</p>
+        <p class="note">Anthony Colombo · Oct 28, 2026 — Class Success Tips</p>
+        <p class="note">Anthony Colombo · Oct 26, 2026 — Module 1 Announcement</p>
+        <p class="note">Anthony Colombo · Oct 18, 2026 — Welcome to Apologetics 220</p>
       </div>
+      <div class="card">
+        <p class="coursename">MUSC103 · Music Appreciation</p>
+        <p class="note">Thomas Lerew · Oct 30, 2026 — Week 1, 2nd Overview</p>
+        <p class="note">Thomas Lerew · Oct 27, 2026 — Reminder: Course Requirements Checklist due tomorrow!</p>
+        <p class="note">Thomas Lerew · Oct 26, 2026 — Week 1 Overview</p>
+        <p class="note">Thomas Lerew · Oct 22, 2026 — Welcome to MUSC 103 Music Appreciation!</p>
+      </div>
+      <p class="note" style="margin:0 4px">Verified in Canvas Nov 1, 2026.</p>
     </section>
    </div>
    <div class="view" id="view-assign">
@@ -169,7 +180,7 @@ footer .rule{display:block;width:44px;height:2px;background:var(--line);margin:0
   <footer>
     <span class="rule"></span>
     Checkoffs and your added events save on this phone.<br>
-    Content updated Oct 18, 2026.
+    Content updated Nov 1, 2026.
   </footer>
 </div>
 <script>
@@ -182,6 +193,13 @@ var COURSES = {
   UNIV104:{code:"UNIV104",title:"Instructional Technology for Successful Online Learning",color:"#5D7D6E",
     portal:{label:"Open myLU",url:"https://mylu.liberty.edu"},
     material:{label:"Open MindTap",url:"http://www.getenrolled.com/"},
+    chat:{label:"Open myLU for class chat",url:"https://mylu.liberty.edu"}},
+  MUSC103:{code:"MUSC103",title:"Music Appreciation · Fall 2026 Subterm D (D08) · Oct 26 \u2013 Dec 18, 2026 · Instructor: Thomas Lerew",color:"#7B5EA7",
+    portal:{label:"Open in Canvas",url:"https://libertyuniversity.instructure.com/courses/1101945"},
+    material:{label:"Open syllabus",url:"https://liberty.campusconcourse.com/view_syllabus?course_id=582657"},
+    chat:{label:"Open myLU for class chat",url:"https://mylu.liberty.edu"}},
+  APOL220:{code:"APOL220",title:"Introduction to Apologetics · Fall 2026 Subterm D (D13) · Oct 26 \u2013 Dec 18, 2026 · Instructor: Anthony Colombo",color:"#2E6B8A",
+    portal:{label:"Open in Canvas",url:"https://libertyuniversity.instructure.com/courses/1094974"},material:null,
     chat:{label:"Open myLU for class chat",url:"https://mylu.liberty.edu"}}
 };
 function C(code){return COURSES[code];}
@@ -192,6 +210,8 @@ var SCHEDULE = {
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
   {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
   {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"Deep work: Introduction to Apologetics",s:780,e:855,k:"course",c:"APOL220",n:"Read, notes, and work the current module forward."},
+  {t:"Focused work: Music Appreciation",s:870,e:930,k:"course",c:"MUSC103",n:"Listening assignments, notes, and quiz preparation."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  2:[ /* Tuesday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed.",done:true},
@@ -199,6 +219,8 @@ var SCHEDULE = {
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
   {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
   {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"Deep work: Introduction to Apologetics",s:780,e:855,k:"course",c:"APOL220",n:"Read, notes, and work the current module forward."},
+  {t:"Focused work: Music Appreciation",s:870,e:930,k:"course",c:"MUSC103",n:"Listening assignments, notes, and quiz preparation."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  3:[ /* Wednesday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
@@ -206,6 +228,8 @@ var SCHEDULE = {
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
   {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
   {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"Deep work: Introduction to Apologetics",s:780,e:855,k:"course",c:"APOL220",n:"Read, notes, and work the current module forward."},
+  {t:"Focused work: Music Appreciation",s:870,e:930,k:"course",c:"MUSC103",n:"Listening assignments, notes, and quiz preparation."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  4:[ /* Thursday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
@@ -213,6 +237,8 @@ var SCHEDULE = {
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
   {t:"Deep work: General Psychology",s:570,e:675,k:"course",c:"PSYC101",n:"Use the longer morning block for reading, notes, assignments, and quiz preparation."},
   {t:"Focused work: UNIV104",s:690,e:765,k:"course",c:"UNIV104",n:"Move the current module forward and finish the next required step."},
+  {t:"Deep work: Introduction to Apologetics",s:780,e:855,k:"course",c:"APOL220",n:"Read, notes, and work the current module forward."},
+  {t:"Focused work: Music Appreciation",s:870,e:930,k:"course",c:"MUSC103",n:"Listening assignments, notes, and quiz preparation."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  5:[ /* Friday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
@@ -220,13 +246,15 @@ var SCHEDULE = {
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
   {t:"PSYC101 catch-up",s:570,e:660,k:"course",c:"PSYC101",n:"Close any gaps before the weekend and review upcoming deadlines."},
   {t:"UNIV104 finish line",s:675,e:750,k:"course",c:"UNIV104",n:"Submit finished work and set up the next module."},
-  {t:"Weekly school wrap",s:750,e:780,k:"review",n:"Confirm submissions, note what is still open, then close school for the day."},
+  {t:"APOL220 catch-up",s:765,e:825,k:"course",c:"APOL220",n:"Close any gaps and review upcoming apologetics deadlines."},
+  {t:"MUSC103 finish line",s:840,e:900,k:"course",c:"MUSC103",n:"Finish listening work and set up the next module."},
+  {t:"Weekly school wrap",s:900,e:930,k:"review",n:"Confirm submissions, note what is still open, then close school for the day."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  6:[ /* Saturday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
   {t:"Workout",s:420,e:465,k:"anchor",n:"A focused movement block before the day gets busy."},
   {t:"Breakfast",s:540,e:570,k:"anchor",n:"Fuel up before schoolwork begins."},
-  {t:"Saturday study session",s:600,e:720,k:"study",n:"Review the week, strengthen difficult material, and get ahead without stretching into the afternoon."},
+  {t:"Saturday study session",s:600,e:720,k:"study",n:"Review the week across all four courses, strengthen difficult material, and get ahead without stretching into the afternoon."},
   {t:"EHS Book Club reading",s:1200,e:1220,k:"study",n:"Chapters 1\u20138 by Oct 5."}],
  0:[ /* Sunday */
   {t:"Prayer",s:390,e:420,k:"anchor",n:"Begin the day centered and unrushed."},
@@ -258,7 +286,35 @@ var ASSIGNMENTS = [
  {id:11,c:"PSYC101",t:"Course Reflection Video",d:"Verified in Canvas 2026-09-22.",due:"2026-11-09",time:null,done:false},
  {id:16,c:"UNIV104",t:"Module 7 assignments",d:"Choosing Your Major, Module 7 Acknowledgment. Verified in Canvas 2026-09-22.",due:"2026-11-09",time:null,done:false},
  {id:9,c:"UNIV104",t:"Final Exam + Extra Credit GENED",d:"Final exam plus Extra Credit GENED Assessment opportunity (no set date in Canvas). Verified in Canvas 2026-09-22.",due:"2026-11-13",time:null,done:false},
- {id:20,c:"PSYC101",t:"Exam 4",d:"Verified in Canvas 2026-09-22.",due:"2026-11-13",time:null,done:false}
+ {id:20,c:"PSYC101",t:"Exam 4",d:"Verified in Canvas 2026-09-22.",due:"2026-11-13",time:null,done:false},
+ {id:24,c:"APOL220",t:"Course Requirements Checklist",d:"10 pts \u00b7 scored 10 out of 10. Verified in Canvas 2026-11-01.",due:"2026-10-28",time:"23:59",done:true},
+ {id:25,c:"APOL220",t:"Discussion Thread: Apologetic Background",d:"75 pts \u00b7 not yet graded in Canvas. Verified in Canvas 2026-11-01.",due:"2026-10-29",time:"23:59",done:false},
+ {id:26,c:"APOL220",t:"Quiz: Apologetics in the Bible",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-11-02",time:"23:59",done:false},
+ {id:27,c:"APOL220",t:"Discussion Thread: Biblical Mandate for Apologetics",d:"75 pts. Verified in Canvas 2026-11-01.",due:"2026-11-05",time:"23:59",done:false},
+ {id:28,c:"APOL220",t:"Quiz: Apologetics within the Great Tradition",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-11-09",time:"23:59",done:false},
+ {id:29,c:"APOL220",t:"Discussion Thread: Apologetic Virtue",d:"75 pts. Verified in Canvas 2026-11-01.",due:"2026-11-12",time:"23:59",done:false},
+ {id:30,c:"APOL220",t:"Quiz: Methods and Going to the Cross",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-11-16",time:"23:59",done:false},
+ {id:31,c:"APOL220",t:"Quiz: Cruciform Humility and the Holistic Approach",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-11-23",time:"23:59",done:false},
+ {id:32,c:"APOL220",t:"Inside Out Paper Assignment",d:"100 pts. Verified in Canvas 2026-11-01.",due:"2026-11-30",time:"23:59",done:false},
+ {id:33,c:"APOL220",t:"Quiz: Contextualization and Inside Out",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-11-30",time:"23:59",done:false},
+ {id:34,c:"APOL220",t:"Discussion Thread: Cultural Trends of Late Modernism",d:"75 pts. Verified in Canvas 2026-11-01.",due:"2026-12-03",time:"23:59",done:false},
+ {id:35,c:"APOL220",t:"Quiz: Engaging in Late Modernism",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-12-07",time:"23:59",done:false},
+ {id:36,c:"APOL220",t:"Miracle and Resurrection Paper Assignment",d:"200 pts. Verified in Canvas 2026-11-01.",due:"2026-12-14",time:"23:59",done:false},
+ {id:37,c:"APOL220",t:"Quiz: Dealing with Defeaters",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-12-14",time:"23:59",done:false},
+ {id:38,c:"APOL220",t:"Quiz: Making a Case",d:"50 pts. Verified in Canvas 2026-11-01.",due:"2026-12-18",time:"23:59",done:false},
+ {id:39,c:"MUSC103",t:"Course Requirements Checklist",d:"10 pts \u00b7 scored 10 out of 10. Verified in Canvas 2026-11-01.",due:"2026-10-28",time:"23:59",done:true},
+ {id:40,c:"MUSC103",t:"HW: Chapter 1 Listening Assignment",d:"14 pts \u00b7 scored 14 out of 14. Verified in Canvas 2026-11-01.",due:"2026-11-02",time:"23:59",done:true},
+ {id:41,c:"MUSC103",t:"HW: Chapter 3, 4, 5 Listening Assignments + Quiz: Elements of Music, Medieval Music, & Renaissance Music",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-11-02",time:"23:59",done:false},
+ {id:42,c:"MUSC103",t:"Discussion Thread: Everything But...",d:"40 pts. Verified in Canvas 2026-11-01.",due:"2026-11-05",time:"23:59",done:false},
+ {id:43,c:"MUSC103",t:"HW: Chapter 6, 7, 8, 9 Listening Assignments + Quiz: The Baroque Era",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-11-09",time:"23:59",done:false},
+ {id:44,c:"MUSC103",t:"HW: Chapter 10, 11, 13, 14, 15 Listening Assignments + Quiz: The Classical Era",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-11-16",time:"23:59",done:false},
+ {id:45,c:"MUSC103",t:"HW: Chapter 17, 18, 19 Listening Assignments + Listening Journal: Songs of the Common Practice Period + Quiz: Early Romanticism",d:"Listening assignments 14 pts each \u00b7 Listening Journal 75 pts \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-11-23",time:"23:59",done:false},
+ {id:46,c:"MUSC103",t:"Discussion Thread: Art and the Artist",d:"40 pts. Verified in Canvas 2026-11-01.",due:"2026-11-26",time:"23:59",done:false},
+ {id:47,c:"MUSC103",t:"HW: Chapter 20, 21, 22, 23 Listening Assignments + Quiz: Late Romanticism",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-11-30",time:"23:59",done:false},
+ {id:48,c:"MUSC103",t:"HW: Chapter 24, 25, 26, 27 Listening Assignments + Listening Journal: Songs of the Twentieth Century and Beyond + Quiz: Modern and Postmodern Art Music, 1880-Present",d:"Listening assignments 14 pts each \u00b7 Listening Journal 75 pts \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-12-07",time:"23:59",done:false},
+ {id:49,c:"MUSC103",t:"HW: Chapter 28, 29, 30 Listening Assignments + Quiz: American Popular Music + Quiz: Final Exam",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts \u00b7 Final Exam 150 pts. Verified in Canvas 2026-11-01.",due:"2026-12-14",time:"23:59",done:false},
+ {id:50,c:"MUSC103",t:"Discussion Thread: Course Reflection",d:"40 pts. Verified in Canvas 2026-11-01.",due:"2026-12-17",time:"23:59",done:false},
+ {id:51,c:"MUSC103",t:"HW: Chapter 32, 33, 34 Listening Assignments + Quiz: Global Music",d:"Listening assignments 14 pts each \u00b7 Quiz 20 pts. Verified in Canvas 2026-11-01.",due:"2026-12-18",time:"23:59",done:false}
 ];
 var BOOK_BLOCKS = [
  {n:1,a:1,b:8,meet:"2026-10-05"},
